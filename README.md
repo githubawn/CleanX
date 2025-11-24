@@ -10,8 +10,8 @@ Personal userscript (and Chrome extension) for X/Twitter that filters posts by c
 - Settings button in the left nav (🚫 icon) opens the modal for edits.
 
 ### Usage
-1) Userscript: install `CleanX-user.js` in your userscript manager.  
-2) Chrome extension: load `extension/` as an unpacked extension in `chrome://extensions` (Developer Mode).  
+1) Userscript: download `CleanX.user.js` from Releases (or use `CleanX-user.js` in this repo) and install it in your userscript manager (Tampermonkey/Greasemonkey).  
+2) Chrome extension: download `CleanX-extension.zip` from Releases and load as an unpacked extension in `chrome://extensions` (Developer Mode), or load the `extension/` folder directly.  
 3) Open X/Twitter and click the 🚫 CleanX button under Profile in the left nav.  
 4) Add countries/regions/languages; toggle block vs highlight and region-only highlight.  
 5) Reload to apply; use Export DB for debugging or backup.
@@ -21,3 +21,4 @@ Personal userscript (and Chrome extension) for X/Twitter that filters posts by c
 - Optional format: `npx prettier --check "CleanX-user.js"`.
 - Primary storage: `localStorage` + IndexedDB (`known` store for users, `stats` for totals).
 - Extension entrypoint: `extension/content.js`, manifest at `extension/manifest.json`.
+- CI: pushes to `main`/`master` build artifacts (userscript, zipped extension, changelog) as workflow artifacts. Tagging `v*` publishes a GitHub Release with those files attached and the changelog as the release body.
