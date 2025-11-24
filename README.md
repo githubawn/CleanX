@@ -12,15 +12,24 @@ Personal userscript (and Chrome extension) for X/Twitter that filters posts by c
 ### Images
 
 Sidebar Menu:
+
 <img width="425" height="1391" alt="image" src="https://github.com/user-attachments/assets/ac24a7d2-a08c-4705-9252-bb344b3760c5" />
 
 
 Settings Menu:
+
 <img width="845" height="1476" alt="image" src="https://github.com/user-attachments/assets/b4f4780e-39a7-4c0f-a4ac-5136b41cbc34" />
 
 
 Shows all user's countries in posts:
+
 <img width="1078" height="566" alt="image" src="https://github.com/user-attachments/assets/cd3e2e41-953c-4957-9d6b-fc8ca2c27d66" />
+
+
+Highlighted posts are obvious (if not blocked):
+
+<img width="1036" height="538" alt="image" src="https://github.com/user-attachments/assets/3b16c614-75b5-4b30-bd5b-65a66701ebd1" />
+
 
 
 ### Usage
