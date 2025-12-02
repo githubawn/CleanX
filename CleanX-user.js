@@ -178,7 +178,7 @@
 		Slovakia: "SK",
 		Slovenia: "SI",
 		"South Africa": "ZA",
-		"South Korea": "KR",
+		"South Korea": "KO",
 		Spain: "ES",
 		"Sri Lanka": "LK",
 		Sweden: "SE",
@@ -210,6 +210,10 @@
 		ar: /[\u0600-\u06FF]/,
 		fa: /[\u0600-\u06FF]/,
 		ps: /[\u0600-\u06FF]/,
+		ru: /[\u0400-\u04FF]/, // Russian
+		zh: /[\u4E00-\u9FFF]/, // Chinese
+		ja: /[\u3040-\u30FF]/, // Japanese
+		ko: /[\uAC00-\uD7AF]/, // Korean
 	};
 
 	const REGION_DEFS = [
@@ -1472,69 +1476,54 @@
 
 	// Sync removed: keep everything local only.
 
-	function ensureSidebarButton(openModal) {
-		const existing = document.getElementById("xcb-button");
-		const nav = document.querySelector('nav[aria-label="Primary"]');
-		if (!nav) return false;
-		const homeLink = nav.querySelector('a[aria-label="Home"]');
-		const profileLink = nav.querySelector('a[aria-label="Profile"]');
-		const moreEntry =
-			nav.querySelector('[aria-label="More menu items"]') ||
-			nav.querySelector('[aria-label="More"]') ||
-			nav.querySelector('[data-testid="AppTabBar_More_Menu"]');
-		const anchorRef = moreEntry || profileLink || homeLink;
-		if (!anchorRef) return false;
-		const parent = (anchorRef.closest("a, div, button") || anchorRef).parentElement || nav;
-		if (!parent) return false;
-		const btn = existing || document.createElement("a");
-		btn.id = "xcb-button";
-		btn.setAttribute("role", "button");
-		btn.href = "javascript:void(0)";
-		btn.innerHTML =
-			'<span class="xcb-icon" style="font-size:22px;line-height:22px;color:#fff;">🚫</span><span class="xcb-label" style="font-size:18px;font-weight:700;">CleanX</span>';
-		btn.style =
-			"display:flex;align-items:center;gap:14px;padding:12px;border-radius:9999px;color:#e7e9ea;text-decoration:none;font-size:17px;font-weight:700;cursor:pointer;max-width:260px;min-width:52px;box-sizing:border-box;";
+function ensureSidebarButton(openModal) {
+		// Check of de knop al bestaat
+		if (document.getElementById("xcb-floating-button")) return true;
+
+		const btn = document.createElement("button");
+		btn.id = "xcb-floating-button";
+		btn.innerHTML = "🚫";
+		btn.title = "Open X Country Blocker (Ctrl+B)";
+
+		// STIJL: Zwevend rechtsonder (Floating Action Button)
+		btn.style.cssText = `
+			position: fixed;
+			top: 25px;
+			right: 25px;
+			width: 50px;
+			height: 50px;
+			background-color: #1d9bf0; /* X Blue */
+			color: white;
+			border: none;
+			border-radius: 50%;
+			font-size: 24px;
+			cursor: pointer;
+			z-index: 99999; /* Altijd bovenop */
+			box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: transform 0.2s, background-color 0.2s;
+		`;
+
+		// Hover effecten
 		btn.onmouseenter = () => {
-			btn.style.backgroundColor = "rgba(255,255,255,0.08)";
+			btn.style.transform = "scale(1.1)";
+			btn.style.backgroundColor = "#1a8cd8";
 		};
 		btn.onmouseleave = () => {
-			btn.style.backgroundColor = "transparent";
+			btn.style.transform = "scale(1)";
+			btn.style.backgroundColor = "#1d9bf0";
 		};
+
+		// Klik actie
 		btn.onclick = (e) => {
 			e.preventDefault();
-			e.stopPropagation();
 			openModal();
 		};
-		btn.onkeydown = (e) => {
-			if (e.key === "Enter" || e.key === " ") {
-				e.preventDefault();
-				openModal();
-			}
-		};
-		const label = btn.querySelector(".xcb-label");
-		const updateLabelVisibility = () => {
-			if (!label) return;
-			label.style.display =
-				(nav.getBoundingClientRect().width || 0) > 80 ? "inline" : "none";
-		};
-		updateLabelVisibility();
-		if (typeof ResizeObserver !== "undefined") {
-			const ro = new ResizeObserver(updateLabelVisibility);
-			ro.observe(nav);
-		} else {
-			window.addEventListener("resize", updateLabelVisibility);
-		}
-		if (btn.parentElement !== parent) {
-			if (moreEntry && moreEntry.parentElement === parent) {
-				parent.insertBefore(btn, moreEntry);
-			} else if (profileLink && profileLink.parentElement === parent) {
-				parent.insertBefore(btn, profileLink.nextSibling);
-			} else if (homeLink && homeLink.parentElement === parent) {
-				parent.insertBefore(btn, homeLink.nextSibling);
-			} else {
-				parent.appendChild(btn);
-			}
-		}
+
+		// Toevoegen aan de body (werkt altijd, onafhankelijk van X layout)
+		document.body.appendChild(btn);
 		return true;
 	}
 
@@ -1747,10 +1736,8 @@
 		};
 		const closeModal = () => (modal.style.display = "none");
 
-		const placeButton = () => {
-			if (!ensureSidebarButton(openModal)) setTimeout(placeButton, 700);
-		};
-		placeButton();
+// Direct plaatsen, we hoeven nergens op te wachten
+		ensureSidebarButton(openModal);
 		modal.addEventListener("click", (e) => {
 			if (e.target === modal) closeModal();
 		});
