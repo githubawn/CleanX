@@ -1515,7 +1515,6 @@ function ensureSidebarButton(openModal) {
 			btn.style.backgroundColor = "#1d9bf0";
 		};
 
-		// Klik actie
 		btn.onclick = (e) => {
 			e.preventDefault();
 			openModal();
