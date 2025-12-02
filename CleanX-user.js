@@ -138,6 +138,7 @@
 		Ireland: "IE",
 		Israel: "IL",
 		Italy: "IT",
+		"Ivory Coast": "CÔ",
 		Jamaica: "JM",
 		Japan: "JP",
 		Jordan: "JO",
