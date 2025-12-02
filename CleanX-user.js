@@ -1475,9 +1475,9 @@
 	}
 
 	// Sync removed: keep everything local only.
-
+//MODIFIED: Changed to a fixed Floating Action Button to avoid dependency on X's unstable sidebar DOM
+	
 function ensureSidebarButton(openModal) {
-		// Check of de knop al bestaat
 		if (document.getElementById("xcb-floating-button")) return true;
 
 		const btn = document.createElement("button");
@@ -1485,7 +1485,6 @@ function ensureSidebarButton(openModal) {
 		btn.innerHTML = "🚫";
 		btn.title = "Open X Country Blocker (Ctrl+B)";
 
-		// STIJL: Zwevend rechtsonder (Floating Action Button)
 		btn.style.cssText = `
 			position: fixed;
 			top: 25px;
@@ -1506,7 +1505,7 @@ function ensureSidebarButton(openModal) {
 			transition: transform 0.2s, background-color 0.2s;
 		`;
 
-		// Hover effecten
+
 		btn.onmouseenter = () => {
 			btn.style.transform = "scale(1.1)";
 			btn.style.backgroundColor = "#1a8cd8";
@@ -1522,7 +1521,7 @@ function ensureSidebarButton(openModal) {
 			openModal();
 		};
 
-		// Toevoegen aan de body (werkt altijd, onafhankelijk van X layout)
+
 		document.body.appendChild(btn);
 		return true;
 	}
@@ -1736,7 +1735,7 @@ function ensureSidebarButton(openModal) {
 		};
 		const closeModal = () => (modal.style.display = "none");
 
-// Direct plaatsen, we hoeven nergens op te wachten
+// Place the button directly now
 		ensureSidebarButton(openModal);
 		modal.addEventListener("click", (e) => {
 			if (e.target === modal) closeModal();
